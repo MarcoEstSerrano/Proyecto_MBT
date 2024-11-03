@@ -25,6 +25,7 @@ public class Main {
             Reloj miReloj = new Reloj();
             Calculadora miCalculadora = new Calculadora(); 
             PizarraDeNotas miPizarraDeNotas = new PizarraDeNotas();
+            Recordatorios recordatorio = new Recordatorios();
 
             String nombre = JOptionPane.showInputDialog(
                     null,
@@ -79,7 +80,33 @@ public class Main {
                         } while (opcionAgenda != 4);
                     }
                     case 2 -> System.out.println("Funcionalidad de Calendario aún no implementada.");
-                    case 3 -> System.out.println("Funcionalidad de Recordatorios aún no implementada.");
+                    case 3 -> {
+                        while (true) {
+                            System.out.println("1. Agregar recordatorio");
+                            System.out.println("2. Mostrar recordatorios");
+                            System.out.println("3. Salir");
+                            System.out.print("Elige una opción: ");
+                            int opcion = entrada.nextInt();
+                            entrada.nextLine(); // Limpiar el buffer
+
+                            switch (opcion) {
+                                case 1:
+                                    System.out.print("Escribe el recordatorio: ");
+                                    String nuevoRecordatorio = entrada.nextLine();
+                                    recordatorio.agregarRecordatorio(nuevoRecordatorio);
+                                    break;
+                                case 2:
+                                    recordatorio.mostrarRecordatorios();
+                                    break;
+                                case 3:
+                                    System.out.println("Saliendo...");
+                                    entrada.close();
+                                    return;
+                                default:
+                                    System.out.println("Opción no válida. Inténtalo de nuevo.");
+                            }
+                        }
+                    }
                     case 4 -> {
                         int opcionReloj;
                         do {
