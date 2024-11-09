@@ -16,6 +16,7 @@ public class Contacto {
         this.notas = notas;
     }
 
+    
     public String getNombre() {
         return nombres;
     }
