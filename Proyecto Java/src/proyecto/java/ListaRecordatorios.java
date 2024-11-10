@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ListaRecordatorios {
-    private List<Recordatorios> recordatorios;  // Cambiado de ListaRecordatorios a Recordatorios
-
+    private List<Recordatorios> recordatorios;
     public ListaRecordatorios() {
         this.recordatorios = new ArrayList<>();
     }
