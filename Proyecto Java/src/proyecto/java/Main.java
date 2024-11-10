@@ -28,7 +28,7 @@ public class Main {
                     ingresarAlPrograma();
                     break;
                 case 3:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("Cerrando sistema MBT...");
                     break;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
@@ -57,13 +57,8 @@ public class Main {
             Calendario miCalendario = new Calendario();
             ListaRecordatorios miListaRecordatorios = new ListaRecordatorios();
 
-            String nombre = JOptionPane.showInputDialog(
-                    null,
-                    "Ingrese su nombre",
-                    "Informacion personal",
-                    JOptionPane.INFORMATION_MESSAGE);
 
-            String mensaje = String.format("Bienvenido %s a My Blackboard Tools (MBT)", nombre);
+            String mensaje = String.format("Bienvenido a My Blackboard Tools (MBT)");
             JOptionPane.showMessageDialog(
                     null,
                     mensaje,
@@ -93,7 +88,7 @@ public class Main {
                     case 5 -> menuPizarra(entrada, miPizarraDeNotas);
                     case 6 -> miCalculadora.realizarOperacion(entrada);
                     case 7 -> cambiarContrasena();
-                    case 8 -> System.out.println("Saliendo del programa...");
+                    case 8 -> System.out.println("Volviendo al menu inicial...");
                     default -> System.out.println("Opción no válida. Intente de nuevo.");
                 }
             } while (opcionPrincipal != 8);
