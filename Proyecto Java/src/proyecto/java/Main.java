@@ -17,14 +17,9 @@ public class Main {
                     + "2. Ingresar al programa\n"
                     + "3. Salir\n"
                     + "Seleccione una opción:";
-
-            try {
-                opcionMenuPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipal));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "HA CERRADO EL PROGRAMA, GRACIAS POR USAR MBT.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
+            
+            opcionMenuPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipal));
+            
             switch (opcionMenuPrincipal) {
                 case 1:
                     cambiarContrasena();
@@ -68,11 +63,6 @@ public class Main {
                     "Informacion personal",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            if (nombre == null) {
-                JOptionPane.showMessageDialog(null, "Se ha presentado un error, por favor reinicie el programa.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
             String mensaje = String.format("Bienvenido %s a My Blackboard Tools (MBT)", nombre);
             JOptionPane.showMessageDialog(
                     null,
@@ -92,13 +82,8 @@ public class Main {
                         + "7. Cambiar contraseña\n"
                         + "8. Salir\n"
                         + "Seleccione una opción:";
-
-                try {
-                    opcionPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipalProgram));
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Se ha presentado un error, por favor reinicie el programa.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+                
+                opcionPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipalProgram));
 
                 switch (opcionPrincipal) {
                     case 1 -> menuAgenda(entrada, miAgenda);
@@ -115,7 +100,94 @@ public class Main {
         }
     }
 
-    // Métodos de menú restantes (agenda, calendario, recordatorios, etc.) siguen igual, pero con manejo de excepciones en las entradas si es necesario.
+    private static void menuAgenda(Scanner entrada, Agenda miAgenda) {
+        int opcionAgenda;
+        do {
+            System.out.println("-------AGENDA-------:");
+            System.out.println("1. Agregar contacto a la agenda");
+            System.out.println("2. Mostrar contactos");
+            System.out.println("3. Modificar contacto");
+            System.out.println("4. Volver al menu principal");
+            System.out.print("Seleccione una opcion: ");
+            opcionAgenda = entrada.nextInt();
+
+            switch (opcionAgenda) {
+                case 1 -> miAgenda.agregarContacto(entrada);
+                case 2 -> miAgenda.mostrarContactos();
+                case 3 -> miAgenda.modificarContacto(entrada);
+                case 4 -> System.out.println("Volviendo al menu principal...");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcionAgenda != 4);
+    }
+
+    private static void menuCalendario(Scanner entrada, Calendario miCalendario) {
+        System.out.print("Ingrese el año: ");
+        int anio = entrada.nextInt();
+        System.out.print("Ingrese el mes (1-12): ");
+        int mes = entrada.nextInt();
+        miCalendario.mostrarCalendario(mes, anio);
+    }
+
+    private static void menuRecordatorios(Scanner entrada, ListaRecordatorios miListaRecordatorios) {
+        int opcionRecordatorios;
+        do {
+            System.out.println("-------RECORDATORIOS-------:");
+            System.out.println("1. Agregar recordatorio");
+            System.out.println("2. Mostrar recordatorios");
+            System.out.println("3. Eliminar recordatorio");
+            System.out.println("4. Volver al menu principal");
+            System.out.print("Seleccione una opcion: ");
+            opcionRecordatorios = entrada.nextInt();
+            entrada.nextLine(); // consume the leftover newline character
+
+            switch (opcionRecordatorios) {
+                case 1 -> miListaRecordatorios.agregarRecordatorio(entrada);
+                case 2 -> miListaRecordatorios.mostrarRecordatorios();
+                case 3 -> miListaRecordatorios.eliminarRecordatorio(entrada);
+                case 4 -> System.out.println("Volviendo al menu principal...");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcionRecordatorios != 4);
+    }
+
+    private static void menuReloj(Scanner entrada, Reloj miReloj) {
+        int opcionReloj;
+        do {
+            System.out.println("-------RELOJ-------:");
+            System.out.println("1. Ver Reloj");
+            System.out.println("2. Volver al menu principal");
+            System.out.print("Seleccione una opcion: ");
+            opcionReloj = entrada.nextInt();
+
+            switch (opcionReloj) {
+                case 1 -> miReloj.mostrarHora();
+                case 2 -> System.out.println("Volviendo al menu principal...");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcionReloj != 2);
+    }
+
+    private static void menuPizarra(Scanner entrada, PizarraDeNotas miPizarraDeNotas) {
+        int opcionPizarra;
+        do {
+            System.out.println("-------PIZARRA DE NOTAS-------:");
+            System.out.println("1. Agregar nota");
+            System.out.println("2. Mostrar notas");
+            System.out.println("3. Eliminar nota");
+            System.out.println("4. Volver al menu principal");
+            System.out.print("Seleccione una opcion: ");
+            opcionPizarra = entrada.nextInt();
+
+            switch (opcionPizarra) {
+                case 1 -> miPizarraDeNotas.agregarNota(entrada);
+                case 2 -> miPizarraDeNotas.mostrarNotas();
+                case 3 -> miPizarraDeNotas.eliminarNota(entrada);
+                case 4 -> System.out.println("Volviendo al menu principal...");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcionPizarra != 4);
+    }
 
     private static void cambiarContrasena() {
         String contrasenaActual = JOptionPane.showInputDialog(
@@ -124,22 +196,12 @@ public class Main {
                 "Cambio de Contraseña",
                 JOptionPane.INFORMATION_MESSAGE);
 
-        if (contrasenaActual == null) {
-            JOptionPane.showMessageDialog(null, "Se ha presentado un error, por favor reinicie el programa.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (contrasenaActual.equals(contrasena)) {
+        if (contrasenaActual != null && contrasenaActual.equals(contrasena)) {
             String nuevaContrasena = JOptionPane.showInputDialog(
                     null,
                     "Ingrese la nueva contraseña:",
                     "Cambio de Contraseña",
                     JOptionPane.INFORMATION_MESSAGE);
-
-            if (nuevaContrasena == null) {
-                JOptionPane.showMessageDialog(null, "Se ha presentado un error, por favor reinicie el programa.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
             String confirmacionContrasena = JOptionPane.showInputDialog(
                     null,
@@ -147,12 +209,7 @@ public class Main {
                     "Cambio de Contraseña",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            if (confirmacionContrasena == null) {
-                JOptionPane.showMessageDialog(null, "Se ha presentado un error, por favor reinicie el programa.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (nuevaContrasena.equals(confirmacionContrasena)) {
+            if (nuevaContrasena != null && nuevaContrasena.equals(confirmacionContrasena)) {
                 contrasena = nuevaContrasena;
                 JOptionPane.showMessageDialog(null, "Contraseña cambiada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -176,25 +233,5 @@ public class Main {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    private static void menuAgenda(Scanner entrada, Agenda miAgenda) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static void menuCalendario(Scanner entrada, Calendario miCalendario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static void menuRecordatorios(Scanner entrada, ListaRecordatorios miListaRecordatorios) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static void menuReloj(Scanner entrada, Reloj miReloj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static void menuPizarra(Scanner entrada, PizarraDeNotas miPizarraDeNotas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
