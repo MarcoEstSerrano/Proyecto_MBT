@@ -11,15 +11,31 @@ public class Main {
 
         int opcionMenuPrincipal;
         do {
-            // Menú principal con opciones
+            
             String menuPrincipal = "-------MENÚ PRINCIPAL-------:\n"
                     + "1. Cambiar contraseña\n"
                     + "2. Ingresar al programa\n"
                     + "3. Salir\n"
                     + "Seleccione una opción:";
             
-            opcionMenuPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipal));
-            
+            try {
+                String input = JOptionPane.showInputDialog(menuPrincipal);
+               
+                if (input == null) {
+                    JOptionPane.showMessageDialog(null, "Has cerrado el programa. Gracias por usar MBT.");
+                    break; 
+                }
+                opcionMenuPrincipal = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese una opción válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                opcionMenuPrincipal = 0;  
+            } catch (Exception e) {
+                
+                JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado.", "Error", JOptionPane.ERROR_MESSAGE);
+                opcionMenuPrincipal = 0; 
+            }
+
             switch (opcionMenuPrincipal) {
                 case 1:
                     cambiarContrasena();
@@ -29,7 +45,9 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Cerrando sistema MBT...");
-                    break;
+                    JOptionPane.showMessageDialog(null, "Has cerrado el programa. Gracias por usar MBT.");
+                    break; 
+                    
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
             }
@@ -37,14 +55,27 @@ public class Main {
     }
 
     private static void ingresarAlPrograma() {
-        String contrasenaIngresada = JOptionPane.showInputDialog(
-                null,
-                "Ingrese la contraseña para acceder a MBT:",
-                "Verificación de Contraseña",
-                JOptionPane.INFORMATION_MESSAGE);
+        String contrasenaIngresada = null;
+        try {
+            contrasenaIngresada = JOptionPane.showInputDialog(
+                    null,
+                    "Ingrese la contraseña para acceder a MBT:",
+                    "Verificación de Contraseña",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-        if (contrasenaIngresada == null || !contrasenaIngresada.equals(contrasena)) {
-            JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Si el usuario presiona le da click al boton de cancelar :)
+            if (contrasenaIngresada == null) {
+                JOptionPane.showMessageDialog(null, "Has cerrado el programa. Gracias por usar MBT.");
+                return;  // Cierra completamente todo
+            }
+
+            if (!contrasenaIngresada.equals(contrasena)) {
+                JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Acceso denegado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (Exception e) {
+            // cualquier otra excepción:
+            JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -56,7 +87,6 @@ public class Main {
             PizarraDeNotas miPizarraDeNotas = new PizarraDeNotas();
             Calendario miCalendario = new Calendario();
             ListaRecordatorios miListaRecordatorios = new ListaRecordatorios();
-
 
             String mensaje = String.format("Bienvenido a My Blackboard Tools (MBT)");
             JOptionPane.showMessageDialog(
@@ -77,8 +107,23 @@ public class Main {
                         + "7. Cambiar contraseña\n"
                         + "8. Salir\n"
                         + "Seleccione una opción:";
-                
-                opcionPrincipal = Integer.parseInt(JOptionPane.showInputDialog(menuPrincipalProgram));
+
+                try {
+                    String input = JOptionPane.showInputDialog(menuPrincipalProgram);
+                    if (input == null) {
+                        JOptionPane.showMessageDialog(null, "Has cerrado el programa. Gracias por usar MBT.");
+                        break;  
+                    }
+                    opcionPrincipal = Integer.parseInt(input);
+                } catch (NumberFormatException e) {
+                    
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese una opción válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    opcionPrincipal = 0;  
+                } catch (Exception e) {
+                    
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    opcionPrincipal = 0; 
+                }
 
                 switch (opcionPrincipal) {
                     case 1 -> menuAgenda(entrada, miAgenda);
@@ -94,6 +139,8 @@ public class Main {
             } while (opcionPrincipal != 8);
         }
     }
+
+    
 
     private static void menuAgenda(Scanner entrada, Agenda miAgenda) {
         int opcionAgenda;
@@ -185,35 +232,48 @@ public class Main {
     }
 
     private static void cambiarContrasena() {
-        String contrasenaActual = JOptionPane.showInputDialog(
-                null,
-                "Ingrese su contraseña actual:",
-                "Cambio de Contraseña",
-                JOptionPane.INFORMATION_MESSAGE);
+    String contrasenaActual = JOptionPane.showInputDialog(
+            null,
+            "Ingrese su contraseña actual:",
+            "Cambio de Contraseña",
+            JOptionPane.INFORMATION_MESSAGE);
 
-        if (contrasenaActual != null && contrasenaActual.equals(contrasena)) {
-            String nuevaContrasena = JOptionPane.showInputDialog(
-                    null,
-                    "Ingrese la nueva contraseña:",
-                    "Cambio de Contraseña",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            String confirmacionContrasena = JOptionPane.showInputDialog(
-                    null,
-                    "Confirme la nueva contraseña:",
-                    "Cambio de Contraseña",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            if (nuevaContrasena != null && nuevaContrasena.equals(confirmacionContrasena)) {
-                contrasena = nuevaContrasena;
-                JOptionPane.showMessageDialog(null, "Contraseña cambiada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Contraseña actual incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    
+    if (contrasenaActual == null) {
+        JOptionPane.showMessageDialog(null, "Cambio de contraseña cancelado.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
+        return;
     }
+
+    if (!contrasenaActual.equals(contrasena)) {
+        JOptionPane.showMessageDialog(null, "Contraseña actual incorrecta. No se puede cambiar la contraseña.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+  String nuevaContrasena = JOptionPane.showInputDialog(
+            null,
+            "Ingrese la nueva contraseña:",
+            "Cambio de Contraseña",
+            JOptionPane.INFORMATION_MESSAGE);
+
+    if (nuevaContrasena == null) {
+        JOptionPane.showMessageDialog(null, "Cambio de contraseña cancelado.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    String confirmacionContrasena = JOptionPane.showInputDialog(
+            null,
+            "Confirme la nueva contraseña:",
+            "Cambio de Contraseña",
+            JOptionPane.INFORMATION_MESSAGE);
+
+   if (confirmacionContrasena == null || !nuevaContrasena.equals(confirmacionContrasena)) {
+        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    contrasena = nuevaContrasena;
+    JOptionPane.showMessageDialog(null, "Contraseña cambiada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+}
 
     private static void mostrarBannerMBT() {
         System.out.println(" __  __ ____ _____ ");
